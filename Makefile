@@ -1,21 +1,23 @@
 .PHONY: all run clean
 
-CFLAGS = -ffreestanding
+CFLAGS = -Wall -Wextra -ffreestanding -O2
 
-all: kernel.bin
+all: boot.bin
 
-run: kernel.bin
-	qemu-system-i386 -drive file=kernel.bin,format=raw
+run: boot.bin
+	qemu-system-i386 -drive file=$<,format=raw
 
 clean:
-	rm -rf src/*.o test test.bin
+	rm -rf src/*.o *.elf *.bin
 
-kernel.bin: bootloader.bin test.bin
-	cat $^ > kernel.bin
+boot.bin: bootloader.bin kernel.bin
+	cat $^ > $@
 
-test.bin: src/start.o src/test.o
-	i686-elf-ld -T linker.ld $^ -o test
-	i686-elf-objcopy -O binary -S test test.bin
+kernel.bin: kernel.elf
+	i686-elf-objcopy -O binary -S $< $@
+
+kernel.elf: src/start.o src/test.o
+	i686-elf-gcc -T linker.ld -ffreestanding -O2 -nostdlib $^ -lgcc -o $@
 
 src/start.o: src/start.S
 	i686-elf-gcc -c ${CFLAGS} $< -o $@

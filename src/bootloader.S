@@ -13,6 +13,8 @@ mov ds, ax
 xor sp, sp
 sti
 
+cld
+
 ; Check INT 13 Extensions
 mov ah, 0x41
 mov bx, 0x55AA
@@ -37,7 +39,6 @@ out 0x92, al
 
 a20_enabled:
 ; Relocate the data from 0x7E00 to high memory at 0x200000
-cld
 xor ax, ax
 mov es, ax
 mov ax, DISK_CODE_SEGMENT
@@ -52,9 +53,27 @@ reloc_loop:
 	dec cx
 	jnz reloc_loop
 end_loop:
+
+mov si, done_msg
+call print_string
 ; Jump to new code at 0x200000
 jmp DWORD 0:RELOC_CODE_START
 
+; si: Address of string
+print_string:
+	mov ax, 0x7C0
+	mov ds, ax
+	mov ah, 0xE
+	xor bx, bx
+	.print_loop:
+		lodsb
+		test al, al
+		jz .end_loop
+		int 0x10
+		jmp .print_loop
+	.end_loop:
+		ret
+	
 ; Print error code as ASCII char
 error:
 	mov al, ah
@@ -72,6 +91,8 @@ disk_packet:
 	dw DISK_CODE_SEGMENT	; segment address
 	dd 1			; lower 32-bit LDA address
 	dd 0			; upper 16-bit LDA address
+
+done_msg db "Booting into kernel...", 0
 
 times 510 - ($ - $$) db 0
 dw 0xAA55
