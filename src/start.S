@@ -6,17 +6,25 @@
 .type _start, @function
 
 _start:
-	xor ax, ax
-	mov ss, ax
-	mov ds, ax
-	mov es, ax
-	mov esp, stack_top
-
-	mov ebx, 0x77666677
-
+	mov esp, _stack_top
 	call main
 
+print_string:
+	mov si, msg
+	xor bx, bx
+	mov ah, 0xE
+	.print_loop:
+		lodsb
+		test al, al
+		jz .end_loop
+		int 0x10
+		jmp .print_loop
+	.end_loop:
+		ret
+
+.section .rodata
+msg:
+	.asciz "Hello World from _start"
+
 .section .bss
-stack_bottom:
 	.skip 16384
-stack_top:

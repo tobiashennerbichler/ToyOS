@@ -7,7 +7,7 @@ int main(void) {
 	for(size_t y = 0; y < 25; y++) {
 		for(size_t x = 0; x < 80; x++) {
 			size_t index = y*80 + x;
-			buffer[index] = '@' | (7 << 8);
+			buffer[index] = '@' | (1 << 8);
 		}
 	}
 
