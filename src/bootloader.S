@@ -65,24 +65,13 @@ prepare_switch:
 	or al, 2
 	out 0x92, al
 
-	;.reloc_code:
-	; Relocate the data from 0x7E00 to high memory at 0x200000
-	;xor ax, ax
-	;mov es, ax
-	;mov ax, DISK_CODE_SEGMENT
-	;mov ds, ax
-	;xor si, si
-	;mov edi, RELOC_CODE_START
-	;mov cx, NUM_SECTORS*SECTOR_SIZE
-	; rep movsb
-
 	; Load GDT
 	.load_gdt:
 	lgdt [gdt]
 
 switch:
-	;mov si, done_msg
-	;call print_string
+	mov si, done_msg
+	call print_string
 
 	; Switch to protected mode
 	mov eax, cr0
@@ -100,7 +89,13 @@ protected:
 	mov fs, eax
 	mov gs, eax
 	mov ss, eax
-	jmp 0x7E00
+
+	; Relocate code to high memory and jump to _start function
+	mov esi, DISK_CODE_ADDRESS
+	mov edi, RELOC_CODE_START
+	mov ecx, NUM_SECTORS*SECTOR_SIZE
+	rep movsb
+	jmp RELOC_CODE_START
 
 disk_packet:
 	db 16

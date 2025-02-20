@@ -1,7 +1,9 @@
 .PHONY: all run clean
 
-CFLAGS = -Wall -Wextra -g -ffreestanding -O2
+CFLAGS = -Wall -Wextra -g -ffreestanding -O0
 CC = i686-elf-gcc
+OBJ = $(patsubst %.c,%.o,$(wildcard src/*.c))
+OBJ += src/start.o
 
 all: boot.bin
 
@@ -20,14 +22,13 @@ boot.bin: bootloader.bin kernel.bin
 kernel.bin: kernel.elf
 	i686-elf-objcopy -O binary -S $< $@
 
-kernel.elf: src/start.o src/test.o
-	${CC} -T linker.ld -ffreestanding -O2 -nostdlib $^ -lgcc -o $@
-	rm $^
+kernel.elf: ${OBJ} linker.ld
+	${CC} -T linker.ld -nostdlib $^ -lgcc -o $@
 
 src/start.o: src/start.S
 	${CC} -c ${CFLAGS} $< -o $@
 
-src/test.o: src/test.c
+%.o: %.c
 	${CC} -c ${CFLAGS} $< -o $@
 
 bootloader.bin: src/bootloader.S

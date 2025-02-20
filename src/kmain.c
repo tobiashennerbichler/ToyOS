@@ -1,8 +1,7 @@
 #include <stddef.h>
 #include <stdint.h>
 
-__attribute__((noreturn))
-int main(void) {
+static void print_vga() {
 	uint16_t *buffer = (uint16_t *) 0xB8000;
 	for(size_t y = 0; y < 25; y++) {
 		for(size_t x = 0; x < 80; x++) {
@@ -10,6 +9,11 @@ int main(void) {
 			buffer[index] = '@' | (1 << 8);
 		}
 	}
+}
+
+__attribute__((noreturn))
+int kmain(void) {
+	print_vga();
 
 	while(1) {
 		;

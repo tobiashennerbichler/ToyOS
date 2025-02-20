@@ -1,13 +1,8 @@
 SECTIONS {
-	. = 0x7E00;
+	. = 2M;
 	.text : {
+		src/start.o(.text)
 		*(.text)
-		*(.text*)
-	}
-
-	.rodata : {
-		. = ALIGN(16);
-		*(.rodata)
 	}
 
 	.bss : {
