@@ -107,9 +107,9 @@ disk_packet:
 	dd 0					; upper 16-bit LDA address
 
 gdt:
-	; Null Entry
-	dw 40
-	dd gdt
+	; Null Entry - use it as placeholder to be used with lgdt instruction
+	dw end_gdt - gdt - 1	; size of table - 1
+	dd gdt					; address of this table
 	dw 0
 	; Kernel Code
 	dw 0xFFFF		; lower 16-bit of limit
@@ -139,6 +139,7 @@ gdt:
 	db 0xF2
 	db 0xCF
 	db 0
+end_gdt:
 
 done_msg db "Loading from Disk done! Switching to protected mode...", 0
 

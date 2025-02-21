@@ -1,9 +1,9 @@
 .PHONY: all run clean
 
-CFLAGS = -Wall -Wextra -g -ffreestanding -O0
+CFLAGS = -Wall -Wextra -g -ffreestanding -O2 -Iheaders
 CC = i686-elf-gcc
 OBJ = $(patsubst %.c,%.o,$(wildcard src/*.c))
-OBJ += src/start.o
+OBJ += src/start.o src/interrupt_wrapper.o
 
 all: boot.bin
 
@@ -25,7 +25,7 @@ kernel.bin: kernel.elf
 kernel.elf: ${OBJ} linker.ld
 	${CC} -T linker.ld -nostdlib $^ -lgcc -o $@
 
-src/start.o: src/start.S
+%.o: %.S
 	${CC} -c ${CFLAGS} $< -o $@
 
 %.o: %.c
