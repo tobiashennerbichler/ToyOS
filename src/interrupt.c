@@ -5,7 +5,7 @@ struct idt_entry_t idt[NUM_ENTRIES] = { 0 };
 const uint32_t KERN_CODE_SELECTOR = 8;
 
 static void _lidt(uint16_t limit, uint32_t base) {
-    volatile struct idtr_t idtr = {
+    struct idtr_t idtr = {
         .limit = limit,
         .base = base,
         .reserved = 0
