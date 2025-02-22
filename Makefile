@@ -3,7 +3,7 @@
 CFLAGS = -Wall -Wextra -g -ffreestanding -O2 -Iheaders
 CC = i686-elf-gcc
 OBJ = $(patsubst %.c,%.o,$(wildcard src/*.c))
-OBJ += src/start.o src/interrupt_wrapper.o
+OBJ += $(patsubst %.S,%.o,$(wildcard src/*.S))
 
 all: boot.bin
 
@@ -31,5 +31,5 @@ kernel.elf: ${OBJ} linker.ld
 %.o: %.c
 	${CC} -c ${CFLAGS} $< -o $@
 
-bootloader.bin: src/bootloader.S
+bootloader.bin: boot/bootloader.S
 	nasm -f bin $< -o $@

@@ -5,7 +5,7 @@
 #include <stdint.h>
 
 #define NUM_ENTRIES 256
-#define ADD_EXCEPTION(nr)   extern void wrap_exception_##nr(); _set_entry(nr, (uint32_t) wrap_exception_##nr, TRAP_GATE32, KERNEL)
+#define NUM_EXCEPTIONS 32
 
 enum gate_type { TASK_GATE = 5, INT_GATE16, TRAP_GATE16, INT_GATE32 = 14, TRAP_GATE32 };
 enum ring { KERNEL = 0, USER = 3 };
