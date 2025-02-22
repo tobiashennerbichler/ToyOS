@@ -41,6 +41,11 @@ init:
 
 	cld
 
+	; Enable VGA Mode 0x13 while still in Real Mode
+	xor ah, ah
+	mov al, 0x13
+	int 0x10
+
 	; Check INT 13 Extensions
 	mov ah, 0x41
 	mov bx, 0x55AA

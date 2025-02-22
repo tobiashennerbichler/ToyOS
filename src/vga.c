@@ -1,34 +1,44 @@
 #include "vga.h"
+#include "font.h"
 #include "string.h"
 #include "assert.h"
 
-uint8_t *pixel_buf = (uint8_t *) 0xA0000;
-uint16_t *text_buf = (uint16_t *) 0xB8000;
+uint8_t *vga_buf = (uint8_t *) 0xA0000;
 cursor_t cursor_pos = {0};
 
 static size_t cur_to_index() {
-    return cursor_pos.y * TEXT_MODE_WIDTH + cursor_pos.x;
+    return cursor_pos.y * SCREEN_WIDTH + cursor_pos.x;
 }
 
-static void inc_cursor() {
-    cursor_pos.x = (cursor_pos.x + 1) % TEXT_MODE_WIDTH;
+static void advance_cursor() {
+    cursor_pos.x = (cursor_pos.x + 8) % SCREEN_WIDTH;
     if(cursor_pos.x == 0) {
-        cursor_pos.y = (cursor_pos.y + 1) % TEXT_MODE_HEIGHT;
+        cursor_pos.y = (cursor_pos.y + 8) % SCREEN_HEIGHT;
     }
 }
 
 void init_vga() {
-    for(size_t y = 0; y < TEXT_MODE_HEIGHT; y++) {
-        for(size_t x = 0; x < TEXT_MODE_WIDTH; x++) {
-            write_char(' ', BLACK);
-        }
-    }
+    fill_screen(BLACK);
+}
+
+void fill_screen(VGAColor color) {
+    memset(vga_buf, color, SCREEN_WIDTH * SCREEN_HEIGHT);
 }
 
 void write_char(char c, VGAColor color) {
+    ASSERT(c >= 0);
     size_t index = cur_to_index();
-    text_buf[index] = c | (color << 8);
-    inc_cursor();
+
+    uint8_t *bitmap = font8x8[(unsigned int) c];
+    for(size_t y = 0; y < 8; y++) {
+        uint8_t row = bitmap[y];
+        for(size_t x = 0; x < 8; x++) {
+            if((row >> x) & 1) {
+                vga_buf[index + y*SCREEN_WIDTH + x] = color;
+            }
+        }
+    }
+    advance_cursor();
 }
 
 void write_string(const char *string, VGAColor color) {
@@ -59,8 +69,8 @@ void write_int(int val, VGAColor color) {
 }
 
 void set_cursor(cursor_t pos) {
-    pos.x %= TEXT_MODE_WIDTH;
-    pos.y %= TEXT_MODE_HEIGHT;
+    pos.x %= SCREEN_WIDTH;
+    pos.y %= SCREEN_HEIGHT;
 
     cursor_pos = pos;
 }

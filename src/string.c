@@ -45,3 +45,21 @@ char *strcat(char *restrict dst, const char *restrict src) {
     dst[dst_len + src_len] = 0;
     return dst;
 }
+
+uint8_t *memset(uint8_t *s, uint8_t c, size_t n) {
+    for(size_t i = 0; i < n; i++) {
+        s[i] = c;
+    }
+    return s;
+}
+
+uint8_t *memcpy(uint8_t *restrict dest, const uint8_t *src, size_t n) {
+    for(size_t i = 0; i < n; i++) {
+        dest[i] = src[i];
+    }
+    return dest;
+}
+
+uint8_t *memmove(uint8_t *dest, const uint8_t *src, size_t n) {
+    return dest;
+}

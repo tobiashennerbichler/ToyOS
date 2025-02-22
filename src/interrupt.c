@@ -41,8 +41,9 @@ static void set_idt_entry(size_t index, uint32_t offset, GateType type, Ring pri
 
 void exception_handler(int interrupt_number) {
     char text[] = "Error: ";
-    write_string(text, MAGENTA);
-    write_int(interrupt_number, MAGENTA);
+    fill_screen(DARK_BLUE);
+    write_string(text, DARK_RED);
+    write_int(interrupt_number, DARK_RED);
 
     ASSERT(false);
 }

@@ -4,10 +4,8 @@
 #include <stddef.h>
 #include <stdint.h>
 
-#define TEXT_MODE_WIDTH 80
-#define TEXT_MODE_HEIGHT 25
-#define PIXEL_MODE_WIDTH 320
-#define PIXEL_MODE_HEIGHT 200
+#define SCREEN_WIDTH 320
+#define SCREEN_HEIGHT 200
 
 typedef struct cursor_t {
     size_t x;
@@ -34,6 +32,7 @@ typedef enum VGAColor {
 } VGAColor;
 
 void init_vga();
+void fill_screen(VGAColor color);
 void write_char(char c, VGAColor color);
 void write_string(const char *string, VGAColor color);
 void write_int(int val, VGAColor color);
