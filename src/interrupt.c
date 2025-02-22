@@ -40,12 +40,12 @@ static void set_idt_entry(size_t index, uint32_t offset, GateType type, Ring pri
 }
 
 void exception_handler(int interrupt_number) {
-    char text[] = "Error: ";
+    char text[] = "Exception: ";
     fill_screen(DARK_BLUE);
-    write_string(text, DARK_RED);
-    write_int(interrupt_number, DARK_RED);
+    write_string(text, DARK_RED, 1);
+    write_int(interrupt_number, DARK_RED, 1);
 
-    ASSERT(false);
+    assert(false);
 }
 
 extern void (*exception_table[32])(void);

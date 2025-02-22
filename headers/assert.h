@@ -1,11 +1,7 @@
 #ifndef __ASSERT_H__
 #define __ASSERT_H__
 
-#define ASSERT(e)       if(!(e)) {\
-                            __asm__ volatile (\
-                                "cli\n"\
-                                "hlt"\
-                            );\
-                        }
+void assert(bool cond);
+void assert_msg(bool cond, const char *err_msg);
 
 #endif
