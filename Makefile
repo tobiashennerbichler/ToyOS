@@ -23,7 +23,7 @@ build/boot.bin: build/bootloader.bin build/kernel.bin
 build/kernel.bin: build/kernel.elf
 	i686-elf-objcopy -O binary -S $< $@
 
-build/kernel.elf: ${OBJ} linker.ld
+build/kernel.elf: ${OBJ}
 	${CC} -T linker.ld -nostdlib $^ -lgcc -o $@
 
 build/%.o: src/%.S

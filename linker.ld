@@ -1,14 +1,27 @@
+MEMORY {
+	code (rx) : ORIGIN = 0x200000, LENGTH = 8K
+	rom  (r)  : ORIGIN = 0x202000, LENGTH = 2K
+	ram  (rw) : ORIGIN = 0x202800, LENGTH = 40K
+}
+
 SECTIONS {
-	. = 2M;
 	.text : {
-		src/start.o(.text)
+		build/start.o(.text)
 		*(.text)
-	}
+	} > code
+
+	.rodata : {
+		*(.rodata*)
+	} > rom
+
+	.data : {
+		*(.data)
+	} > ram
 
 	.bss : {
 		. = ALIGN(16);
-		_stack_bottom = .;
-		*(.bss)
-		_stack_top = .;
-	}
+		_stack_end = .;
+		build/start.o(.bss.stack)
+		_stack_start = .;
+	} > ram
 }

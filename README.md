@@ -4,6 +4,9 @@ This program is a learning experience for 32-bit protected mode OSes. The goal i
 
 ## Running
 
-- Requires the use of a i686-elf-gcc cross compiler and the corresponding binutils (see [this link](https://wiki.osdev.org/GCC_Cross-Compiler) for help on building the toolchain)
+- Requires the use of a i686-elf-gcc cross compiler and the corresponding binutils (see [this link](https://wiki.osdev.org/GCC_Cross-Compiler) for help on building the toolchain). Specifically uses:
+    - gcc 15.0.1 20250216
+    - GNU Binutils 2.25.1
+    - GNU gdb 16.2
 - Requires nasm to build the initial bootloader
 - Requires qemu-system-i386 to execute the code

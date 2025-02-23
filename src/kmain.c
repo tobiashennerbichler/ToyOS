@@ -14,7 +14,9 @@ int kmain(void) {
 	init_interrupts();
 	init_vga();
 
-	volatile int x = 42 / *((int *) &idt[32]);
+	write_string("Welcome to ToyOS!", LIGHT_GREEN, 1);
+
+	//volatile int x = 42 / *((int *) &idt[32]);
 	while(1) {
 		;
 	}
