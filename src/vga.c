@@ -27,7 +27,7 @@ void fill_screen(VGAColor color) {
 
 void write_char(char c, VGAColor color, size_t scale) {
     assert_msg(c >= 0, "Character must be positive");
-    assert_msg((SCREEN_WIDTH % 8*scale) == 0, "Scale must result in correct alignment");
+    assert_msg((SCREEN_WIDTH % (8*scale)) == 0, "Scale must result in correct alignment");
     size_t index = cur_to_index();
 
     uint8_t *bitmap = font8x8[(unsigned int) c];

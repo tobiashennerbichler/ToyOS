@@ -7,6 +7,19 @@
 #define NUM_ENTRIES 256
 #define NUM_EXCEPTIONS 32
 
+#define MPIC_COMMAND    0x20
+#define MPIC_DATA       (MPIC_COMMAND + 1)
+#define SPIC_COMMAND    0xA0
+#define SPIC_DATA       (SPIC_COMMAND + 1)
+#define INIT_PIC        0x11
+#define MODE_8086       0x01
+#define EOI             0x20
+
+#define TIMER_IRQ       0
+#define KEYBOARD_IRQ    1
+#define CASCADE         2
+#define MOUSE_IRQ       12
+
 typedef enum GateType { TASK_GATE = 5, INT_GATE16, TRAP_GATE16, INT_GATE32 = 14, TRAP_GATE32 } GateType;
 typedef enum Ring { KERNEL = 0, USER = 3 } Ring;
 

@@ -1,7 +1,6 @@
 #include "assert.h"
 #include "vga.h"
 
-// TODO: seems to not halt
 void assert(bool cond) {
     if(cond) return;
 
@@ -14,8 +13,8 @@ void assert(bool cond) {
 void assert_msg(bool cond, const char *err_msg) {
     if(cond) return;
 
-    cursor_t pos = {0};
-    set_cursor(pos);
+    fill_screen(DARK_BLUE);
+    set_cursor((cursor_t) {0});
     write_string(err_msg, DARK_RED, 1);
 
     __asm__ volatile (
