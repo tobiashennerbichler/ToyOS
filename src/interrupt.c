@@ -77,9 +77,9 @@ const char *exception_names[32] = {
 void exception_handler(int interrupt_number) {
     fill_screen(DARK_BLUE);
     char text[] = "Exception: ";
-    set_cursor((cursor_t) {0});
-    write_string(text, DARK_RED, 1);
-    write_string(exception_names[interrupt_number], DARK_RED, 1);
+    reset_cursor();
+    print_string(text, DARK_RED);
+    print_string(exception_names[interrupt_number], DARK_RED);
 
     assert(false);
 }
@@ -154,9 +154,4 @@ void end_of_interrupt(uint8_t irq) {
     }
 
     outb(MPIC_COMMAND, EOI);
-}
-
-void keyboard_handler() {
-    uint8_t val = inb(0x60);
-    write_int(val, PINK, 2);
 }

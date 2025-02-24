@@ -31,11 +31,18 @@ typedef enum VGAColor {
     WHITE
 } VGAColor;
 
+#define CHAR_WIDTH 8
+#define CHAR_HEIGHT 8
+
 void init_vga();
 void fill_screen(VGAColor color);
-void write_char(char c, VGAColor color, size_t scale);
-void write_string(const char *string, VGAColor color, size_t scale);
-void write_int(int val, VGAColor color, size_t scale);
+void print_char(char c, VGAColor color);
+void print_string(const char *string, VGAColor color);
+void print_int(int val, VGAColor color);
+void set_scale(size_t new_scale);
 void set_cursor(cursor_t new_pos);
+void reset_cursor();
+void cursor_next_line();
+void erase_prev_char();
 
 #endif

@@ -14,8 +14,8 @@ void assert_msg(bool cond, const char *err_msg) {
     if(cond) return;
 
     fill_screen(DARK_BLUE);
-    set_cursor((cursor_t) {0});
-    write_string(err_msg, DARK_RED, 1);
+    reset_cursor();
+    print_string(err_msg, DARK_RED);
 
     __asm__ volatile (
         "cli\n"
