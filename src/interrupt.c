@@ -126,16 +126,21 @@ static void remap_pic() {
     clear_irqs();
 }
 
-extern void isr_1(void);
+extern void (*isr_table[16])(void);
+static void register_isr(uint8_t irq_number) {
+    enable_irq(irq_number);
+    set_idt_entry(NUM_EXCEPTIONS + irq_number, (uint32_t) isr_table[irq_number], INT_GATE32, KERNEL);
+}
+
 extern void (*exception_table[32])(void);
 void init_interrupts() {
     for(size_t i = 0; i < NUM_EXCEPTIONS; i++) {
         set_idt_entry(i, (uint32_t) exception_table[i], TRAP_GATE32, KERNEL);
     }
+    
     remap_pic();
     enable_irq(CASCADE);
-    enable_irq(KEYBOARD_IRQ);
-    set_idt_entry(NUM_EXCEPTIONS + KEYBOARD_IRQ, (uint32_t) isr_1, INT_GATE32, KERNEL);
+    register_isr(KEYBOARD_IRQ);
 
     lidt(NUM_ENTRIES * sizeof(idt_entry_t) - 1, (uint32_t) idt);
     sti();
@@ -151,8 +156,7 @@ void end_of_interrupt(uint8_t irq) {
     outb(MPIC_COMMAND, EOI);
 }
 
-void keyboard_interrupt() {
+void keyboard_handler() {
     uint8_t val = inb(0x60);
-    write_int(val, PINK, 7);
-    end_of_interrupt(KEYBOARD_IRQ);
+    write_int(val, PINK, 2);
 }

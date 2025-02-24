@@ -1,5 +1,7 @@
 .intel_syntax noprefix
 
+# ===================Exceptions===================
+
 .extern exception_handler
 
 .macro def_exception nr, func=exception_handler
@@ -12,6 +14,7 @@ wrap_exception_\nr:
     iret
 .endm
 
+# Pushes error code on stack
 .macro def_exception_err nr, func=exception_handler
 .global wrap_exception_\nr
 .type wrap_exception_\nr, @function
@@ -62,13 +65,45 @@ exception_table:
     .long wrap_exception_\i
     .endr
 
-.macro def_isr irq, func
-.global isr_\irq
-.type isr_\irq, @function
-isr_\irq:
+# ===================PIC Interrupts===================
+
+unimpl_isr:
+    cli
+    hlt
+
+.extern end_of_interrupt
+.extern keyboard_handler
+
+.macro def_isr irq_nr, func=unimpl_isr
+.global wrap_isr_\irq_nr
+.type wrap_isr_\irq_nr, @function
+wrap_isr_\irq_nr:
     call \func
+    push \irq_nr
+    call end_of_interrupt
+    add esp, 4
     iret
 .endm
 
-.extern keyboard_interrupt
-def_isr 1, keyboard_interrupt
+def_isr 0
+def_isr 1, keyboard_handler
+def_isr 2
+def_isr 3
+def_isr 4
+def_isr 5
+def_isr 6
+def_isr 7
+def_isr 8
+def_isr 9
+def_isr 10
+def_isr 11
+def_isr 12
+def_isr 13
+def_isr 14
+def_isr 15
+
+.global isr_table
+isr_table:
+    .irp i,0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15
+    .long wrap_isr_\i
+    .endr
