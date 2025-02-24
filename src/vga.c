@@ -76,13 +76,13 @@ void write_int(int val, VGAColor color, size_t scale) {
     }
 }
 
-void set_cursor(const cursor_t *new_pos) {
-    pos = *new_pos;
+void set_cursor(cursor_t new_pos) {
     // Bound to screen
-    pos.x %= SCREEN_WIDTH;
-    pos.y %= SCREEN_HEIGHT;
+    new_pos.x %= SCREEN_WIDTH;
+    new_pos.y %= SCREEN_HEIGHT;
 
     // align to 8
-    pos.x &= ~7;
-    pos.y &= ~7;
+    new_pos.x &= ~7;
+    new_pos.y &= ~7;
+    pos = new_pos;
 }

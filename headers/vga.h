@@ -36,6 +36,6 @@ void fill_screen(VGAColor color);
 void write_char(char c, VGAColor color, size_t scale);
 void write_string(const char *string, VGAColor color, size_t scale);
 void write_int(int val, VGAColor color, size_t scale);
-void set_cursor(const cursor_t *new_pos);
+void set_cursor(cursor_t new_pos);
 
 #endif
