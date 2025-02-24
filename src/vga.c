@@ -4,16 +4,17 @@
 #include "assert.h"
 
 uint8_t *vga_buf = (uint8_t *) 0xA0000;
-cursor_t cursor_pos = {0};
+cursor_t pos = {0};
 
 static size_t cur_to_index() {
-    return cursor_pos.y * SCREEN_WIDTH + cursor_pos.x;
+    return pos.y * SCREEN_WIDTH + pos.x;
 }
 
 static void advance_cursor(size_t scale) {
-    cursor_pos.x = (cursor_pos.x + 8*scale) % SCREEN_WIDTH;
-    if(cursor_pos.x == 0) {
-        cursor_pos.y = (cursor_pos.y + 8*scale) % SCREEN_HEIGHT;
+    bool x_overflow = (pos.x + 8*scale) >= SCREEN_WIDTH;
+    pos.x = (pos.x + 8*scale) % SCREEN_WIDTH;
+    if(x_overflow) {
+        pos.y = (pos.y + 8*scale) % SCREEN_HEIGHT;
     }
 }
 
@@ -75,14 +76,13 @@ void write_int(int val, VGAColor color, size_t scale) {
     }
 }
 
-void set_cursor(cursor_t pos) {
+void set_cursor(const cursor_t *new_pos) {
+    pos = *new_pos;
     // Bound to screen
     pos.x %= SCREEN_WIDTH;
     pos.y %= SCREEN_HEIGHT;
 
     // align to 8
-    pos.x &= 7;
-    pos.y &= 7;
-
-    cursor_pos = pos;
+    pos.x &= ~7;
+    pos.y &= ~7;
 }
