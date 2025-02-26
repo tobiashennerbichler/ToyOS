@@ -2,9 +2,10 @@
 
 CFLAGS = -Wall -Wextra -g -ffreestanding -O2 -Iheaders
 CC = i686-elf-gcc
-OBJ_T = $(patsubst %.c,%.o,$(wildcard src/*.c))
-OBJ_T += $(patsubst %.S,%.o,$(wildcard src/*.S))
-OBJ = $(patsubst src/%.o,build/%.o,${OBJ_T})
+SRC = $(wildcard src/*.c src/*.S)
+OBJ_T1 = $(patsubst %.c,%.o,${SRC})
+OBJ_T2 += $(patsubst %.S,%.o,${OBJ_T1})
+OBJ = $(patsubst src/%.o,build/%.o,${OBJ_T2})
 
 all: build/boot.bin
 
@@ -23,8 +24,8 @@ build/boot.bin: build/bootloader.bin build/kernel.bin
 build/kernel.bin: build/kernel.elf
 	i686-elf-objcopy -O binary -S $< $@
 
-build/kernel.elf: ${OBJ}
-	${CC} -T linker.ld -nostdlib $^ -lgcc -o $@
+build/kernel.elf: ${OBJ} ${SRC} linker.ld
+	${CC} -T linker.ld -nostdlib ${OBJ} -lgcc -o $@
 
 build/%.o: src/%.S
 	${CC} -c ${CFLAGS} $< -o $@
