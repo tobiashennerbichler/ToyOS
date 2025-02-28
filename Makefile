@@ -14,12 +14,16 @@ run: build/boot.bin
 
 run_gdb: build/boot.bin
 	qemu-system-i386 -S -drive file=$<,format=raw
+	
+run_log: build/boot.bin
+	qemu-system-i386 -d int -D log.txt -drive file=$<,format=raw
 
 clean:
 	rm -rf build/*
 
 build/boot.bin: build/bootloader.bin build/kernel.bin
 	cat $^ > $@
+	truncate -s 40K $@
 
 build/kernel.bin: build/kernel.elf
 	i686-elf-objcopy -O binary -S $< $@

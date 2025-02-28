@@ -1,7 +1,7 @@
 BOOT_CODE_ADDRESS		equ	0x7C00
 RELOC_KERNEL_ADDRESS	equ	0x200000
 RELOC_VBE_MODE_STRUCT	equ 0x202000
-NUM_SECTORS				equ	120		; If NUM_SECTORS*SECTOR_SIZE becomes > 65535 (0xFFFF) we need to perform multiple loads (offset overflow in disk packet)
+NUM_SECTORS				equ	79		; If NUM_SECTORS*SECTOR_SIZE becomes > 65535 (0xFFFF) we need to perform multiple loads (offset overflow in disk packet)
 SECTOR_SIZE				equ	512
 
 WIDTH					equ	1024
@@ -35,13 +35,12 @@ error:
 	mov ah, 0xE
 	xor bx, bx
 	int 0x10
-	nop
-	hlt
+	jmp $
 
 VESA_error:
 	mov si, vesa_err_msg
 	call print_string
-	hlt
+	jmp $
 
 init:
 	cli
