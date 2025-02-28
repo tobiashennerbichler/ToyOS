@@ -12,6 +12,7 @@ void init_vesa() {
         .red = 0,
         .alpha = 0
     };
+
     for(size_t y = 0; y < SCREEN_HEIGHT; y++) {
         for(size_t x = 0; x < SCREEN_WIDTH; x++) {
             framebuffer[y*SCREEN_WIDTH + x] = *((uint32_t *) &blue);

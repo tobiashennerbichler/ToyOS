@@ -149,17 +149,18 @@ protected:
 	mov gs, eax
 	mov ss, eax
 
+	; Relocate code to high memory and jump to _start function
+	mov esi, kernel_start
+	mov edi, RELOC_KERNEL_ADDRESS
+	mov ecx, NUM_SECTORS*SECTOR_SIZE
+	rep movsb
+
 	; Relocate vbe mode struct into address known by linker
 	mov esi, vbe_mode_struct
 	mov edi, RELOC_VBE_MODE_STRUCT
 	mov ecx, 256
 	rep movsb
 
-	; Relocate code to high memory and jump to _start function
-	mov esi, kernel_start
-	mov edi, RELOC_KERNEL_ADDRESS
-	mov ecx, NUM_SECTORS*SECTOR_SIZE
-	rep movsb
 	jmp RELOC_KERNEL_ADDRESS
 
 disk_packet:
@@ -191,10 +192,6 @@ gdt:
 	db 0xCF
 	db 0
 end_gdt:
-
-sgdt:
-	dw 0
-	dd 0
 
 vesa_err_msg db "VESA not supported", 0
 
