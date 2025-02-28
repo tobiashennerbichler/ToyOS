@@ -1,11 +1,8 @@
-#include "vga.h"
-#include "font.h"
+#include "graphics.h"
 #include "string.h"
-#include "assert.h"
 
-uint8_t *vga_buf = (uint8_t *) 0xA0000;
-cursor_t pos = {0};
-size_t scale = 1;
+static cursor_t pos = {0};
+static size_t scale = 1;
 
 static size_t cur_to_index() {
     return pos.y * SCREEN_WIDTH + pos.x;
@@ -33,45 +30,30 @@ static void redvance_cursor() {
     }
 }
 
-void init_vga() {
-    fill_screen(BLACK);
+void init_graphics() {
+    set_scale(2);
+    fill_screen(TURQUOISE);
 }
 
-void fill_screen(VGAColor color) {
-    memset(vga_buf, color, SCREEN_WIDTH * SCREEN_HEIGHT);
+void fill_screen(color_t color) {
+    _fill_screen(color);
 }
 
-void print_char(char c, VGAColor color) {
+void print_char(char c, color_t color) {
     assert_msg(c >= 0, "Character must be positive");
     size_t index = cur_to_index();
-
-    uint8_t *bitmap = font8x8[(unsigned int) c];
-    for(size_t y = 0; y < CHAR_HEIGHT; y++) {
-        uint8_t row = bitmap[y];
-        for(size_t x = 0; x < CHAR_WIDTH; x++) {
-            if(((row >> x) & 1) == 0) {
-                continue;
-            }
-
-            size_t offset = index + y*scale*SCREEN_WIDTH + x*scale;
-            for(size_t sy = 0; sy < scale; sy++) {
-                for(size_t sx = 0; sx < scale; sx++) {
-                    vga_buf[offset + sy*SCREEN_WIDTH + sx] = color;
-                }
-            }
-        }
-    }
+    _print_char(c, color, index, scale);
     advance_cursor();
 }
 
-void print_string(const char *string, VGAColor color) {
+void print_string(const char *string, color_t color) {
     size_t len = strlen(string);
     for(size_t i = 0; i < len; i++) {
         print_char(string[i], color);
     }
 }
 
-void print_int(int val, VGAColor color) {
+void print_int(int val, color_t color) {
     bool sign = val < 0;
     unsigned int uval = sign ? -val : val;
 
@@ -98,7 +80,6 @@ void set_scale(size_t new_scale) {
     scale = new_scale;
 }
 
-// TODO: should set based on char size
 void set_cursor(cursor_t new_pos) {
     // Bound to screen
     new_pos.x %= SCREEN_WIDTH;

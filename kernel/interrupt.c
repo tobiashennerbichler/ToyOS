@@ -1,5 +1,5 @@
 #include "interrupt.h"
-#include "vga.h"
+#include "graphics.h"
 #include "assert.h"
 #include "port.h"
 
@@ -17,10 +17,6 @@ static void lidt(uint16_t limit, uint32_t base) {
         "lidt %0\n"
         : : "m" (idtr)
     );
-}
-
-static void sti() {
-    __asm__ volatile ("sti");
 }
 
 static void set_idt_entry(size_t index, uint32_t offset, GateType type, Ring privl) {
@@ -154,4 +150,22 @@ void end_of_interrupt(uint8_t irq) {
     }
 
     outb(MPIC_COMMAND, EOI);
+}
+
+inline void cli() {
+    __asm__ volatile ("cli");
+}
+
+inline void sti() {
+    __asm__ volatile ("sti");
+}
+
+inline bool are_interrupts_enabled() {
+    uint32_t status;
+    __asm__ volatile (
+        "pushf\n"
+        "pop %0\n"
+        : "=g"(status)
+    );
+    return (status & IF_FLAG);
 }

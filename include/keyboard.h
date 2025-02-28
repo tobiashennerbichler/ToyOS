@@ -36,9 +36,35 @@ enum Flags {
     ALT = 4
 };
 
+enum CommandId {
+    ECHO = 0xEE,
+    MANIP_SCAN_CODE = 0xF0,
+    ENABLE_SCAN = 0xF4,
+    DISABLE_SCAN
+};
+
+typedef struct Command {
+    enum CommandId id;
+    uint8_t data;
+    uint8_t retries;
+    uint8_t *ret;
+} command_t;
+
+enum Response {
+    ACK = 0xFA,
+    RESEND = 0xFE
+};
+
+typedef enum CommandState {
+    IDLE,
+    WAITING_FOR_RESP,
+    WAITING_FOR_DATA
+} CommandState;
+
 #define KEYBOARD_PORT 0x60
 #define TAB_SIZE 4
+#define QUEUE_SIZE 0x10
 
-void keyboard_handler();
+int queue_command(command_t command);
 
 #endif

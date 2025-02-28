@@ -3,6 +3,7 @@
 
 #include <stddef.h>
 #include <stdint.h>
+#include <stdbool.h>
 
 #define NUM_ENTRIES 256
 #define NUM_EXCEPTIONS 32
@@ -19,6 +20,8 @@
 #define KEYBOARD_IRQ    1
 #define CASCADE         2
 #define MOUSE_IRQ       12
+
+#define IF_FLAG         0x200
 
 typedef enum GateType { TASK_GATE = 5, INT_GATE16, TRAP_GATE16, INT_GATE32 = 14, TRAP_GATE32 } GateType;
 typedef enum Ring { KERNEL = 0, USER = 3 } Ring;
@@ -38,5 +41,8 @@ typedef struct __attribute__((packed)) idtr_t {
 } idtr_t;
 
 void init_interrupts();
+void cli();
+void sti();
+bool are_interrupts_enabled();
 
 #endif

@@ -1,6 +1,7 @@
 #include "assert.h"
-#include "vga.h"
+#include "graphics.h"
 
+//TODO: let them be disableable
 void assert(bool cond) {
     if(cond) return;
 

@@ -1,11 +1,12 @@
 .PHONY: all run clean
 
-CFLAGS = -Wall -Wextra -g -ffreestanding -O2 -Iheaders
+CFLAGS = -Wall -Wextra -g -ffreestanding -O2 -Iinclude
 CC = i686-elf-gcc
-SRC = $(wildcard src/*.c src/*.S)
+SRC = $(wildcard kernel/*.c kernel/*.S)
+SRC += kernel/video/vesa/vesa.c
 OBJ_T1 = $(patsubst %.c,%.o,${SRC})
 OBJ_T2 += $(patsubst %.S,%.o,${OBJ_T1})
-OBJ = $(patsubst src/%.o,build/%.o,${OBJ_T2})
+OBJ = $(patsubst kernel/%.o,build/%.o,${OBJ_T2})
 
 all: build/boot.bin
 
@@ -31,14 +32,14 @@ build/kernel.bin: build/kernel.elf
 build/kernel.elf: ${OBJ} ${SRC} linker.ld
 	${CC} -T linker.ld -nostdlib ${OBJ} -lgcc -o $@
 
-build/%.o: src/%.S
+build/%.o: kernel/%.S
 	${CC} -c ${CFLAGS} $< -o $@
 
-build/%.o: src/%.c
+build/%.o: kernel/%.c
 	${CC} -c ${CFLAGS} $< -o $@
 
 build/bootloader.bin: boot/bootloader.S
-	mkdir -p build
+	mkdir -p build/video/vesa
 	nasm -f bin $< -o $@
 
 dump: build/kernel.elf
