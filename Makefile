@@ -3,6 +3,7 @@
 CFLAGS = -Wall -Wextra -g -ffreestanding -O2 -Iinclude
 CC = i686-elf-gcc
 BOOT = kernel/boot/bootloader.S
+KEYMAP = include/drivers/keyboard_mapping.h
 SRC = $(wildcard kernel/core/*.c kernel/core/*.S kernel/drivers/*.c kernel/libc/*.c kernel/video/*.c)
 SRC += kernel/video/vesa/vesa.c
 OBJ_T1 = $(patsubst %.c,%.o,${SRC})
@@ -30,7 +31,7 @@ build/boot.bin: build/bootloader.bin build/kernel.bin
 build/kernel.bin: build/kernel.elf
 	i686-elf-objcopy -O binary -S $< $@
 
-build/kernel.elf: ${OBJ} ${SRC} linker.ld
+build/kernel.elf: ${OBJ} ${SRC} ${KEYMAP} linker.ld
 	${CC} -T linker.ld -nostdlib ${OBJ} -lgcc -o $@
 
 build/%.o: kernel/%.S

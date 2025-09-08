@@ -73,7 +73,8 @@ static void command_remove_head() {
 static void send_command(command_t command) {
     outb(KEYBOARD_PORT, (uint8_t) command.id);
     io_wait();
-    outb(KEYBOARD_PORT, command.data);
+    if(command.has_data)
+        outb(KEYBOARD_PORT, command.data);
 }
 
 static bool send_next_command() {
@@ -91,9 +92,9 @@ static void process_keypress(uint8_t scan_code) {
         scan_code -= 0x80;
 
     // Extended keys not supported yet (> CAPS_LOCK)
-    if(scan_code > 0x3A) {
-        return;
-    }
+    //if(scan_code > 0x3A) {
+    //    return;
+    //}
 
     keyinfo_t keyinfo = scan_code_to_keyinfo[scan_code];
     void (*callback)(keymap_t) = released ? keyinfo.release_callback

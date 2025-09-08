@@ -37,23 +37,25 @@ enum Flags {
 };
 
 enum CommandId {
-    ECHO = 0xEE,
+    SET_LEDS = 0xED,
+    ECHO,
     MANIP_SCAN_CODE = 0xF0,
-    ENABLE_SCAN = 0xF4,
-    DISABLE_SCAN
+    IDENT_KEYBOARD = 0xF2,
+    SET_TYPEMATIC_RATE,
+    ENABLE_SCAN,
+    DISABLE_SCAN,
+    ACK = 0xFA,
+    RESEND = 0xFE,
+    RESET
 };
 
 typedef struct Command {
     enum CommandId id;
+    bool has_data;
     uint8_t data;
     uint8_t retries;
     uint8_t *ret;
 } command_t;
-
-enum Response {
-    ACK = 0xFA,
-    RESEND = 0xFE
-};
 
 typedef enum CommandState {
     IDLE,

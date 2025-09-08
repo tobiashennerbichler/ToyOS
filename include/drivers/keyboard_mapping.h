@@ -4,7 +4,7 @@ static void display_key(keymap_t keymap);
 
 // Corresponds to Scan Code Set 1 from: https://wiki.osdev.org/PS/2_Keyboard
 // Remapped to fit an Austrian/German Keyboard Layout (ASCII chars)
-static keyinfo_t scan_code_to_keyinfo[0x3B] = {
+static keyinfo_t scan_code_to_keyinfo[0x5C] = {
     {{NONE, NONE, NONE}, 0, 0},
     {{ESCAPE, NONE, NONE}, 0, 0},
     {{'1', '!', NONE}, display_key, 0},
@@ -63,5 +63,35 @@ static keyinfo_t scan_code_to_keyinfo[0x3B] = {
     {{KEYPAD_STAR, NONE, NONE}, 0, 0},
     {{LEFT_ALT, NONE, NONE}, press_flags, release_flags},
     {{' ', NONE, NONE}, display_key, 0},
-    {{CAPS_LOCK, NONE, NONE}, press_flags, 0}
+    {{CAPS_LOCK, NONE, NONE}, press_flags, 0},
+    {{F1, NONE, NONE}, 0, 0},
+    {{F2, NONE, NONE}, 0, 0},
+    {{F3, NONE, NONE}, 0, 0},
+    {{F4, NONE, NONE}, 0, 0},
+    {{F5, NONE, NONE}, 0, 0},
+    {{F6, NONE, NONE}, 0, 0},
+    {{F7, NONE, NONE}, 0, 0},
+    {{F8, NONE, NONE}, 0, 0},
+    {{F9, NONE, NONE}, 0, 0},
+    {{F10, NONE, NONE}, 0, 0},
+    {{NUM_LOCK, NONE, NONE}, 0, 0},
+    {{SCROLL_LOCK, NONE, NONE}, 0, 0},
+    {{KEYPAD_7, NONE, NONE}, 0, 0},
+    {{KEYPAD_8, NONE, NONE}, 0, 0},
+    {{KEYPAD_9, NONE, NONE}, 0, 0},
+    {{KEYPAD_MINUS, NONE, NONE}, 0, 0},
+    {{KEYPAD_4, NONE, NONE}, 0, 0},
+    {{KEYPAD_5, NONE, NONE}, 0, 0},
+    {{KEYPAD_6, NONE, NONE}, 0, 0},
+    {{KEYPAD_PLUS, NONE, NONE}, 0, 0},
+    {{KEYPAD_1, NONE, NONE}, 0, 0},
+    {{KEYPAD_2, NONE, NONE}, 0, 0},
+    {{KEYPAD_3, NONE, NONE}, 0, 0},
+    {{KEYPAD_0, NONE, NONE}, 0, 0}, // seems to be paste
+    {{KEYPAD_DOT, NONE, NONE}, 0, 0}, // seems to be remove
+    {{NONE, NONE, NONE}, 0, 0},
+    {{'<', '>', '|'}, display_key, 0},
+    {{NONE, NONE, NONE}, 0, 0},
+    {{F11, NONE, NONE}, 0, 0},
+    {{F12, NONE, NONE}, 0, 0},
 };

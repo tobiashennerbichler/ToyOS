@@ -29,6 +29,7 @@ color_t get_bg_color();
 color_t get_fg_color();
 void set_scale(uint8_t new_scale);
 uint8_t get_scale();
+cursor_t get_cursor();
 void set_cursor(cursor_t new_pos);
 void reset_cursor();
 void cursor_next_line();

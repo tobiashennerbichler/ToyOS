@@ -25,6 +25,12 @@ int kmain(void) {
 	init_interrupts();
 	print_entry();
 
+	volatile uint8_t ret = 0;
+	queue_command((command_t) {.id=MANIP_SCAN_CODE, .has_data=true, .data=0, .retries=3, .ret=&ret});
+	while(ret == 0) {
+		;
+	}
+	print_int(ret, get_fg_color());
 	//volatile int x = 42 / *((int *) &idt[NUM_EXCEPTIONS + 2]);
 	while(1) {
 		;

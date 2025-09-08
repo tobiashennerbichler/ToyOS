@@ -103,6 +103,10 @@ inline uint8_t get_scale() {
     return _scale;
 }
 
+inline cursor_t get_cursor() {
+    return _pos;
+}
+
 void set_cursor(cursor_t new_pos) {
     // Bound to screen
     new_pos.x %= SCREEN_WIDTH;
