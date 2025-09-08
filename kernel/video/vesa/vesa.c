@@ -15,9 +15,9 @@ void _fill_screen(color_t color) {
     }
 }
 
-void _print_char(char c, color_t color, size_t index, size_t scale) {
+void _print_char(unsigned char c, color_t color, size_t index, size_t scale) {
     uint32_t *framebuffer = (uint32_t *) mode_info->framebuffer;
-    uint8_t *bitmap = font8x8[(unsigned int) c];
+    uint8_t *bitmap = font8x8[c];
     for(size_t y = 0; y < CHAR_HEIGHT; y++) {
         uint8_t row = bitmap[y];
         for(size_t x = 0; x < CHAR_WIDTH; x++) {

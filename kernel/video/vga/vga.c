@@ -9,8 +9,8 @@ void _fill_screen(color_t color) {
     memset(framebuffer, color, SCREEN_WIDTH * SCREEN_HEIGHT);
 }
 
-void _print_char(char c, size_t index, size_t scale, color_t color) {
-    uint8_t *bitmap = font8x8[(unsigned int) c];
+void _print_char(unsigned char c, size_t index, size_t scale, color_t color) {
+    uint8_t *bitmap = font8x8[c];
     for(size_t y = 0; y < CHAR_HEIGHT; y++) {
         uint8_t row = bitmap[y];
         for(size_t x = 0; x < CHAR_WIDTH; x++) {

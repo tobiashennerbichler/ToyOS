@@ -49,12 +49,12 @@ static void display_key(keymap_t keymap) {
         if(c == NONE)
             return;
 
-        print_char(c, PINK);
+        print_char(c, get_fg_color());
     } else if(keymap.base_key == BACKSPACE) {
         erase_prev_char();
     } else if(keymap.base_key == TAB) {
         for(size_t i = 0; i < TAB_SIZE; i++) {
-            print_char(' ', PINK);
+            print_char(' ', get_fg_color());
         }
     } else if(keymap.base_key == ENTER) {
         cursor_next_line();

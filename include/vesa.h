@@ -52,6 +52,6 @@ enum VesaColor {
 #define CHAR_WIDTH 8
 
 void _fill_screen(color_t color);
-void _print_char(char c, color_t color, size_t index, size_t scale);
+void _print_char(unsigned char c, color_t color, size_t index, size_t scale);
 
 #endif

@@ -12,7 +12,7 @@
 void print_entry() {
 	char entry_text[] = "Welcome to ToyOS!";
 	set_cursor((cursor_t) {
-		.x = (SCREEN_WIDTH / 2) - (sizeof(entry_text)/2) * CHAR_WIDTH,
+		.x = (SCREEN_WIDTH / 2) - (sizeof(entry_text)/2) * CHAR_WIDTH * get_scale(),
 		.y = SCREEN_HEIGHT / 2
 	});
 	print_string(entry_text, LIGHT_GREEN);
@@ -21,7 +21,7 @@ void print_entry() {
 
 __attribute__((noreturn))
 int kmain(void) {
-	init_graphics();
+	init_graphics(2, PINK, WHITE);
 	init_interrupts();
 	print_entry();
 

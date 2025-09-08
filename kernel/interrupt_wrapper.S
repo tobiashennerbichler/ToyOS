@@ -8,6 +8,7 @@
 .global wrap_exception_\nr
 .type wrap_exception_\nr, @function
 wrap_exception_\nr:
+    cld
     push \nr
     call \func
     add esp, 4
@@ -19,6 +20,7 @@ wrap_exception_\nr:
 .global wrap_exception_\nr
 .type wrap_exception_\nr, @function
 wrap_exception_\nr:
+    cld
     push \nr
     call \func
     add esp, 8
@@ -73,14 +75,21 @@ unimpl_isr:
 
 .extern end_of_interrupt
 .extern keyboard_handler
+.extern is_spurious_int
 
+# TODO: for user threads later check if we are in kernel mode, otherwise save registers and restore later
 .macro def_isr irq_nr, func=unimpl_isr
 .global wrap_isr_\irq_nr
 .type wrap_isr_\irq_nr, @function
 wrap_isr_\irq_nr:
-    call \func
+    cld             # Clear direction flag
     push \irq_nr
+    call is_spurious_int
+    test eax, eax
+    jnz end_irq_\irq_nr
+    call \func
     call end_of_interrupt
+end_irq_\irq_nr:
     add esp, 4
     iret
 .endm

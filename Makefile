@@ -14,7 +14,7 @@ run: build/boot.bin
 	qemu-system-i386 -drive file=$<,format=raw
 
 run_gdb: build/boot.bin
-	qemu-system-i386 -S -drive file=$<,format=raw
+	qemu-system-i386 -s -S -drive file=$<,format=raw
 	
 run_log: build/boot.bin
 	qemu-system-i386 -d int -D log.txt -drive file=$<,format=raw

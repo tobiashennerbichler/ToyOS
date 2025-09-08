@@ -1,8 +1,8 @@
 MEMORY {
-	code 	 (rx) : ORIGIN = 0x200000, LENGTH = 8K
-	vbe_info (r)  : ORIGIN = 0x202000, LENGTH = 256
-	rom  	 (r)  : ORIGIN = 0x202100, LENGTH = 2K
-	ram  	 (rw) : ORIGIN = 0x202900, LENGTH = 40K
+	code 	 (rx) : ORIGIN = 0x200000							, LENGTH = 8K
+	vbe_info (r)  : ORIGIN = ORIGIN(code) + LENGTH(code)		, LENGTH = 256
+	rom  	 (r)  : ORIGIN = ORIGIN(vbe_info) + LENGTH(vbe_info), LENGTH = 2K
+	ram  	 (rw) : ORIGIN = ORIGIN(rom) + LENGTH(rom)			, LENGTH = 40K
 }
 
 SECTIONS {

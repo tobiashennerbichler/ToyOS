@@ -10,3 +10,7 @@ This program is a learning experience for 32-bit protected mode OSes. The goal i
     - GNU gdb 16.2
 - Requires nasm to build the initial bootloader
 - Requires qemu-system-i386 to execute the code
+
+## Debugging
+
+To debug execute Makefile target `run_gdb` in one window and start gdb in another. Then connect to qemu in GDB via `target remote localhost:1234`. To load the necessary debugging symbols for easier debugging do `symbol-file build/kernel.elf`.

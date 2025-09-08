@@ -12,9 +12,11 @@
 #define MPIC_DATA       (MPIC_COMMAND + 1)
 #define SPIC_COMMAND    0xA0
 #define SPIC_DATA       (SPIC_COMMAND + 1)
-#define INIT_PIC        0x11
-#define MODE_8086       0x01
-#define EOI             0x20
+#define PIC_INIT        0x11
+#define PIC_MODE_8086   0x01
+#define PIC_EOI         0x20
+#define PIC_READ_IRR    0x0a
+#define PIC_READ_ISR    0x0b
 
 #define TIMER_IRQ       0
 #define KEYBOARD_IRQ    1
