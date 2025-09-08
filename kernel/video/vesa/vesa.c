@@ -1,7 +1,7 @@
-#include "vesa.h"
-#include "assert.h"
-#include "font.h"
-#include "string.h"
+#include "video/vesa/vesa.h"
+#include "video/font.h"
+#include "libc/assert.h"
+#include "libc/string.h"
 
 extern uint8_t _vbe_mode_struct[];
 static struct vbe_mode_info_t *mode_info = (struct vbe_mode_info_t *) _vbe_mode_struct;

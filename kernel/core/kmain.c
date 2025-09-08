@@ -1,9 +1,9 @@
 #include <stddef.h>
 #include <stdint.h>
 
-#include "interrupt.h"
-#include "graphics.h"
-#include "keyboard.h"
+#include "core/interrupt.h"
+#include "video/graphics.h"
+#include "drivers/keyboard.h"
 
 #if !defined(__i386)
 #error Incorrect target architecture

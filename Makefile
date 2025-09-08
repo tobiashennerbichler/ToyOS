@@ -2,7 +2,8 @@
 
 CFLAGS = -Wall -Wextra -g -ffreestanding -O2 -Iinclude
 CC = i686-elf-gcc
-SRC = $(wildcard kernel/*.c kernel/*.S)
+BOOT = kernel/boot/bootloader.S
+SRC = $(wildcard kernel/core/*.c kernel/core/*.S kernel/drivers/*.c kernel/libc/*.c kernel/video/*.c)
 SRC += kernel/video/vesa/vesa.c
 OBJ_T1 = $(patsubst %.c,%.o,${SRC})
 OBJ_T2 += $(patsubst %.S,%.o,${OBJ_T1})
@@ -38,7 +39,11 @@ build/%.o: kernel/%.S
 build/%.o: kernel/%.c
 	${CC} -c ${CFLAGS} $< -o $@
 
-build/bootloader.bin: boot/bootloader.S
+build/bootloader.bin: ${BOOT}
+	mkdir -p build/boot
+	mkdir -p build/core
+	mkdir -p build/drivers
+	mkdir -p build/libc
 	mkdir -p build/video/vesa
 	nasm -f bin $< -o $@
 

@@ -1,7 +1,7 @@
-#include "vga.h"
-#include "font.h"
-#include "string.h"
-#include "assert.h"
+#include "video/vga/vga.h"
+#include "video/font.h"
+#include "libc/string.h"
+#include "libc/assert.h"
 
 uint8_t *framebuffer = (uint8_t *) 0xA0000;
 

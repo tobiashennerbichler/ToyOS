@@ -1,5 +1,5 @@
-#include "graphics.h"
-#include "string.h"
+#include "video/graphics.h"
+#include "libc/string.h"
 
 static cursor_t _pos = {0};
 static uint8_t _scale = 2;

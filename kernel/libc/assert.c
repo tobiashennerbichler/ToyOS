@@ -1,5 +1,5 @@
-#include "assert.h"
-#include "graphics.h"
+#include "libc/assert.h"
+#include "video/graphics.h"
 
 //TODO: let them be disableable
 void assert(bool cond) {

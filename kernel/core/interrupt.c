@@ -1,7 +1,7 @@
-#include "interrupt.h"
-#include "graphics.h"
-#include "assert.h"
-#include "port.h"
+#include "core/interrupt.h"
+#include "core/port.h"
+#include "video/graphics.h"
+#include "libc/assert.h"
 
 __attribute__((aligned(16)))
 static idt_entry_t idt[NUM_ENTRIES] = { 0 };

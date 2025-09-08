@@ -1,0 +1,67 @@
+static void press_flags(keymap_t keymap);
+static void release_flags(keymap_t keymap);
+static void display_key(keymap_t keymap);
+
+// Corresponds to Scan Code Set 1 from: https://wiki.osdev.org/PS/2_Keyboard
+// Remapped to fit an Austrian/German Keyboard Layout (ASCII chars)
+static keyinfo_t scan_code_to_keyinfo[0x3B] = {
+    {{NONE, NONE, NONE}, 0, 0},
+    {{ESCAPE, NONE, NONE}, 0, 0},
+    {{'1', '!', NONE}, display_key, 0},
+    {{'2', '"', NONE}, display_key, 0},
+    {{'3', NONE, NONE}, display_key, 0},
+    {{'4', '$', NONE}, display_key, 0},
+    {{'5', '%', NONE}, display_key, 0},
+    {{'6', '&', NONE}, display_key, 0},
+    {{'7', '/', '{'}, display_key, 0},
+    {{'8', '(', '['}, display_key, 0},
+    {{'9', ')', ']'}, display_key, 0},
+    {{'0', '=', '}'}, display_key, 0},
+    {{NONE, '?', '\\'}, display_key, 0},
+    {{NONE, '`', NONE}, display_key, 0},
+    {{BACKSPACE, NONE, NONE}, display_key, 0},
+    {{TAB, NONE, NONE}, display_key, 0},
+    {{'q', 'Q', NONE}, display_key, 0},
+    {{'w', 'W', NONE}, display_key, 0},
+    {{'e', 'E', NONE}, display_key, 0},
+    {{'r', 'R', NONE}, display_key, 0},
+    {{'t', 'T', NONE}, display_key, 0},
+    {{'z', 'Z', NONE}, display_key, 0},
+    {{'u', 'U', NONE}, display_key, 0},
+    {{'i', 'I', NONE}, display_key, 0},
+    {{'o', 'O', NONE}, display_key, 0},
+    {{'p', 'P', NONE}, display_key, 0},
+    {{NONE, NONE, NONE}, 0, 0}, // would be ü
+    {{'+', '*', '~'}, display_key, 0},
+    {{ENTER, NONE, NONE}, display_key, 0},
+    {{LEFT_CTRL, NONE, NONE}, 0, 0},
+    {{'a', 'A', NONE}, display_key, 0},
+    {{'s', 'S', NONE}, display_key, 0},
+    {{'d', 'D', NONE}, display_key, 0},
+    {{'f', 'F', NONE}, display_key, 0},
+    {{'g', 'G', NONE}, display_key, 0},
+    {{'h', 'H', NONE}, display_key, 0},
+    {{'j', 'J', NONE}, display_key, 0},
+    {{'k', 'K', NONE}, display_key, 0},
+    {{'l', 'L', NONE}, display_key, 0},
+    {{NONE, NONE, NONE}, 0, 0}, // would be ö
+    {{NONE, NONE, NONE}, 0, 0}, // would be ä
+    {{'^', NONE, NONE}, display_key, 0},
+    {{LEFT_SHIFT, NONE, NONE}, press_flags, release_flags},
+    {{'#', '\'', NONE}, display_key, 0},
+    {{'y', 'Y', NONE}, display_key, 0},
+    {{'x', 'X', NONE}, display_key, 0},
+    {{'c', 'C', NONE}, display_key, 0},
+    {{'v', 'V', NONE}, display_key, 0},
+    {{'b', 'B', NONE}, display_key, 0},
+    {{'n', 'N', NONE}, display_key, 0},
+    {{'m', 'M', NONE}, display_key, 0},
+    {{',', ';', NONE}, display_key, 0},
+    {{'.', ':', NONE}, display_key, 0},
+    {{'-', '_', NONE}, display_key, 0},
+    {{RIGHT_SHIFT, NONE, NONE}, press_flags, release_flags},
+    {{KEYPAD_STAR, NONE, NONE}, 0, 0},
+    {{LEFT_ALT, NONE, NONE}, press_flags, release_flags},
+    {{' ', NONE, NONE}, display_key, 0},
+    {{CAPS_LOCK, NONE, NONE}, press_flags, 0}
+};
