@@ -1,4 +1,4 @@
-#include "drivers/keyboard.h"
+#include "drivers/ps2_keyboard.h"
 #include "drivers/keyboard_mapping.h"
 #include "core/port.h"
 #include "core/interrupt.h"
@@ -71,10 +71,10 @@ static void command_remove_head() {
 }
 
 static void send_command(command_t command) {
-    outb(KEYBOARD_PORT, (uint8_t) command.id);
+    out8(KEYBOARD_PORT, (uint8_t) command.id);
     io_wait();
     if(command.has_data)
-        outb(KEYBOARD_PORT, command.data);
+        out8(KEYBOARD_PORT, command.data);
 }
 
 static bool send_next_command() {
@@ -90,11 +90,6 @@ static void process_keypress(uint8_t scan_code) {
     bool released = scan_code >= 0x80;
     if(released)
         scan_code -= 0x80;
-
-    // Extended keys not supported yet (> CAPS_LOCK)
-    //if(scan_code > 0x3A) {
-    //    return;
-    //}
 
     keyinfo_t keyinfo = scan_code_to_keyinfo[scan_code];
     void (*callback)(keymap_t) = released ? keyinfo.release_callback
@@ -158,7 +153,7 @@ static void process_data(uint8_t scan_code) {
 }
 
 void keyboard_handler() {
-    uint8_t scan_code = inb(KEYBOARD_PORT);
+    uint8_t scan_code = in8(KEYBOARD_PORT);
 
     switch(state) {
         case IDLE:

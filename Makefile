@@ -1,6 +1,6 @@
 .PHONY: all run clean
 
-CFLAGS = -Wall -Wextra -g -ffreestanding -O2 -Iinclude
+CFLAGS = -Wall -Wextra -pedantic -g -ffreestanding -O2 -Iinclude
 CC = i686-elf-gcc
 BOOT = kernel/boot/bootloader.S
 KEYMAP = include/drivers/keyboard_mapping.h

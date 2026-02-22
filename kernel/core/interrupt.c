@@ -81,16 +81,16 @@ void exception_handler(int interrupt_number) {
 }
 
 static void clear_irqs() {
-    outb(MPIC_DATA, 0xff);
-    outb(SPIC_DATA, 0xff);
+    out8(MPIC_DATA, 0xff);
+    out8(SPIC_DATA, 0xff);
 }
 
 static void enable_irq(uint8_t irq_number) {
     uint8_t port = (irq_number >= 8) ? SPIC_DATA : MPIC_DATA;
     uint8_t bit = irq_number % 8;
 
-    uint8_t status = inb(port);
-    outb(port, status & ~(1 << bit));
+    uint8_t status = in8(port);
+    out8(port, status & ~(1 << bit));
 }
 
 // https://wiki.osdev.org/8259_PIC#Programming_with_the_8259_PIC
@@ -100,27 +100,27 @@ static void remap_pic() {
     uint8_t master_voff = 0x20;
     uint8_t slave_voff = 0x28;
     // Start Initialization
-    outb(MPIC_COMMAND, PIC_INIT);
+    out8(MPIC_COMMAND, PIC_INIT);
     io_wait();
-    outb(SPIC_COMMAND, PIC_INIT);
+    out8(SPIC_COMMAND, PIC_INIT);
     io_wait();
     
     // Send interrupt vector offsets
-    outb(MPIC_DATA, master_voff);
+    out8(MPIC_DATA, master_voff);
     io_wait();
-    outb(SPIC_DATA, slave_voff);
+    out8(SPIC_DATA, slave_voff);
     io_wait();
 
     // Tell master about slave PIC at IRQ2
-    outb(MPIC_DATA, 4);
+    out8(MPIC_DATA, 4);
     io_wait();
-    outb(SPIC_DATA, 2);
+    out8(SPIC_DATA, 2);
     io_wait();
 
     // Switch to 8086 mode
-    outb(MPIC_DATA, PIC_MODE_8086);
+    out8(MPIC_DATA, PIC_MODE_8086);
     io_wait();
-    outb(SPIC_DATA, PIC_MODE_8086);
+    out8(SPIC_DATA, PIC_MODE_8086);
     io_wait();
 
     // Disable all IRQs by masking PICs
@@ -129,8 +129,8 @@ static void remap_pic() {
 
 static uint8_t pic_get_isr_reg(bool pic_master) {
     uint8_t port = pic_master ? MPIC_COMMAND : SPIC_COMMAND;
-    outb(port, PIC_READ_ISR);
-    return inb(port);
+    out8(port, PIC_READ_ISR);
+    return in8(port);
 }
 
 // Check if IRQ disappeared after PIC sent signaled interrupt
@@ -146,7 +146,7 @@ bool is_spurious_int(uint8_t irq) {
 
     spurious_counter++;
     if(!pic_master) {
-        outb(MPIC_COMMAND, PIC_EOI);
+        out8(MPIC_COMMAND, PIC_EOI);
     }
     return true;
 }
@@ -175,10 +175,10 @@ void init_interrupts() {
 // IRQ 8-15: Slave
 void end_of_interrupt(uint8_t irq) {
     if(irq >= 8) {
-        outb(SPIC_COMMAND, PIC_EOI);
+        out8(SPIC_COMMAND, PIC_EOI);
     }
 
-    outb(MPIC_COMMAND, PIC_EOI);
+    out8(MPIC_COMMAND, PIC_EOI);
 }
 
 inline void cli() {
