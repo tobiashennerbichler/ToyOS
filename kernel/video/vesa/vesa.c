@@ -15,6 +15,11 @@ void _fill_screen(color_t color) {
     }
 }
 
+// TODO: can use point2_t later on
+void _set_pixel(uint32_t x, uint32_t y, color_t color) {
+    ((uint32_t *) mode_info->framebuffer)[y*SCREEN_WIDTH+x] = color;
+}
+
 void _print_char(unsigned char c, color_t color, size_t index, size_t scale) {
     uint32_t *framebuffer = (uint32_t *) mode_info->framebuffer;
     uint8_t *bitmap = font8x8[c];

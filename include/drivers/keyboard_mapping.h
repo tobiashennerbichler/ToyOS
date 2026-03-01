@@ -1,13 +1,14 @@
 static void press_flags(keymap_t keymap);
 static void release_flags(keymap_t keymap);
 static void display_key(keymap_t keymap);
+extern void render_image(keymap_t keymap);
 
 // Corresponds to Scan Code Set 1 from: https://wiki.osdev.org/PS/2_Keyboard
 // Remapped to fit an Austrian/German Keyboard Layout (ASCII chars)
 static keyinfo_t scan_code_to_keyinfo[0x5C] = {
     {{NONE, NONE, NONE}, 0, 0},
     {{ESCAPE, NONE, NONE}, 0, 0},
-    {{'1', '!', NONE}, display_key, 0},
+    {{'1', '!', NONE}, render_image, 0},
     {{'2', '"', NONE}, display_key, 0},
     {{'3', NONE, NONE}, display_key, 0},
     {{'4', '$', NONE}, display_key, 0},

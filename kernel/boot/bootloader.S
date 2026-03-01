@@ -4,8 +4,8 @@ RELOC_VBE_MODE_STRUCT	equ 0x202000
 NUM_SECTORS				equ	79		; If NUM_SECTORS*SECTOR_SIZE becomes > 65535 (0xFFFF) we need to perform multiple loads (offset overflow in disk packet)
 SECTOR_SIZE				equ	512
 
-WIDTH					equ	1024
-HEIGHT					equ 768
+WIDTH					equ	1280
+HEIGHT					equ 1024
 BPP						equ 32
 
 ;=============================BOOT SECTOR=============================

@@ -22,6 +22,7 @@ void pci_write_dword(uint8_t bus, uint8_t device, uint8_t function, uint8_t offs
     out32(CONFIG_DATA, value);
 }
 
+//TODO: not finished yet
 void scan_pci() {
     for(uint16_t bus = 0; bus < 256; bus++) {
         for(uint16_t device = 0; device < 256; device++) {

@@ -22,11 +22,10 @@ void print_entry() {
 
 __attribute__((noreturn))
 int kmain(void) {
-	init_graphics(1, PINK, WHITE);
+	init_graphics(2, PINK, WHITE);
 	init_interrupts();
 	print_entry();
 
-	scan_pci();
 	//volatile int x = 42 / *((int *) &idt[NUM_EXCEPTIONS + 2]);
 	while(1) {
 		;

@@ -46,12 +46,13 @@ enum VesaColor {
     WHITE = 0xffffff
 };
 
-#define SCREEN_WIDTH 1024
-#define SCREEN_HEIGHT 768
+#define SCREEN_WIDTH 1280
+#define SCREEN_HEIGHT 1024
 #define CHAR_HEIGHT 8
 #define CHAR_WIDTH 8
 
 void _fill_screen(color_t color);
+void _set_pixel(uint32_t x, uint32_t y, color_t color);
 void _print_char(unsigned char c, color_t color, size_t index, size_t scale);
 
 #endif
