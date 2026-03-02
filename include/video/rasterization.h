@@ -1,12 +1,11 @@
 #ifndef __RASTERIZATION_H__
 #define __RASTERIZATION_H__
 
-// TODO: later graphics.h?
-#include "video/vesa/vesa.h"
-#include "video/vector.h"
-
-#define EPSILON 0.001f
+#include "video/graphics.h"
+#include "libc/vector.h"
 
 void render_image();
+static void fill_triangle(triangle2_t *proj_t);
+static bbox_t get_bounding_box(triangle2_t *t);
 
 #endif

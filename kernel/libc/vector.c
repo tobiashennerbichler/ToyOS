@@ -1,4 +1,4 @@
-#include "video/vector.h"
+#include "libc/vector.h"
 
 vector2_t vector_sub(vector2_t *v1, vector2_t *v2) {
     return (vector2_t) {
